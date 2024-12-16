@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ movie['title'] }}</h1>
+<img src="{{ movie['poster_url'] }}" alt="{{ movie['title'] }}">
+<p><strong>Year:</strong> {{ movie['release_year'] }}</p>
+<p><strong>Director:</strong> {{ movie['director'] }}</p>
+<p><strong>Duration:</strong> {{ movie['duration'] }} minutes</p>
+<p>{{ movie['description'] }}</p>
+
+{% if session['user_role'] == 'admin' %}
+    <a href="{{ url_for('edit_movie', movie_id=movie['id']) }}">
+        <button>Edit Movie</button>
+    </a>
+{% endif %}
+
+<a href="{{ url_for('index') }}">Back to movies</a>
+{% endblock %}

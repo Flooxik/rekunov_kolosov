@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Movies</h1>
+
+<!-- Кнопка добавления фильма (только для админа) -->
+{% if session['user_role'] == 'admin' %}
+    <a href="{{ url_for('add_movie') }}">
+        <button style="margin-bottom: 20px;">Add Movie</button>
+    </a>
+{% endif %}
+
+<!-- Форма поиска фильмов -->
+<form method="get" action="/">
+    <input type="text" name="q" placeholder="Search for movies..." value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Список фильмов -->
+<div class="movies">
+    {% for movie in movies %}
+    <div class="movie-card">
+        <a href="{{ url_for('movie_details', movie_id=movie['id']) }}">
+            {% if movie['poster_url'] %}
+                <img src="{{ movie['poster_url'] }}" alt="{{ movie['title'] }}">
+            {% else %}
+                <img src="/static/images/default.jpg" alt="No Image Available">
+            {% endif %}
+            <h3>{{ movie['title'] }}</h3>
+        </a>
+        {% if movie['release_year'] %}
+            <p><strong>Year:</strong> {{ movie['release_year'] }}</p>
+        {% endif %}
+        {% if movie['director'] %}
+            <p><strong>Director:</strong> {{ movie['director'] }}</p>
+        {% endif %}
+        {% if movie['duration'] %}
+            <p><strong>Duration:</strong> {{ movie['duration'] }} minutes</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+{% if not movies %}
+    <p>No movies found.</p>
+{% endif %}
+{% endblock %}
