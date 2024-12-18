@@ -95,6 +95,10 @@ def add_movie():
         return redirect(url_for('index'))
     return render_template('add_movie.html')
 
+@app.route('/new-feature')
+def new_feature():
+    return "This is a new feature in Cinema app!"
+
 # Редактирование фильма (только для админа)
 @app.route('/admin/movie/edit/<int:movie_id>', methods=('GET', 'POST'))
 def edit_movie(movie_id):
